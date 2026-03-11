@@ -170,10 +170,10 @@ function renderQuestion() {
   if (currentQuestionIndex === shuffledQuestions.length - 1) {
     nextBtn.textContent = "Submit Exam";
     nextBtn.classList.remove("btn-primary");
-    nextBtn.classList.add("btn-danger text-white");
+    nextBtn.classList.add("btn-danger", "text-white");
   } else {
     nextBtn.textContent = "Next";
-    nextBtn.classList.remove("btn-danger");
+    nextBtn.classList.remove("btn-danger", "text-white");
     nextBtn.classList.add("btn-primary");
   }
   nextBtn.disabled = false;
