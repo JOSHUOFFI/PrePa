@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CBT Exam</title>
+
+<link rel="icon" type="image/png" sizes="16x16" href="./PrePa_favicon.png">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="./style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body class="min-vh-100 bg-light text-dark">
+
+<!-- HEADER -->
+<header class="position-sticky top-0 bg-white shadow-sm" style="z-index:1000">
+  <div class="container px-4 py-2 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+    <div class="d-flex align-items-center gap-3">
+      <img src="./logo 1.png" alt="Logo" class="rounded" style="width:40px;height:40px">
+      <div>
+        <h1 id="exam-title" class="h6 fw-bold mb-0 text-primary-emphasis">CBT Portal</h1>
+        <h2 id="subject-name" class="h6 fw-bold mb-0 text-danger animate-fade-in">Subject: Loading...</h2>
+      </div>
+    </div>
+
+    <div id="student-info" class="small fw-bold text-muted d-none d-md-block"></div>
+
+    <div id="timer" class="px-4 py-2 rounded-pill bg-primary text-white fw-bold shadow-sm d-flex align-items-center gap-2 animate-fade-in stagger-1">
+      <i class="bi bi-clock-fill"></i> <span id="timer-display">00:00</span>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="container py-4">
+  <div class="row g-4">
+    <!-- QUESTION CARD -->
+    <section class="col-lg-8 col-xl-9 animate-slide-in">
+      <div class="card border-0 shadow-sm h-100 hover-lift">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <span id="question-number" class="badge bg-primary-subtle text-primary fw-bold px-3 py-2 animate-fade-in"></span>
+            <div class="text-muted small animate-fade-in"><i class="bi bi-info-circle"></i> Choose the correct option</div>
+          </div>
+
+          <h3 id="question-text" class="h5 fw-bold text-dark mb-4 lh-base animate-fade-in stagger-1" style="min-height: 80px;"></h3>
+
+          <div id="options-container" class="d-grid gap-3 mb-5 animate-fade-in stagger-2"></div>
+
+          <!-- Navigation -->
+          <div class="d-flex justify-content-between align-items-center pt-4 border-top animate-fade-in stagger-3">
+            <button id="prev-btn" class="btn btn-outline-secondary px-4 d-flex align-items-center gap-2 hover-lift">
+              <i class="bi bi-arrow-left"></i> Previous
+            </button>
+
+            <button id="next-btn" class="btn btn-primary px-5 d-flex align-items-center gap-2 hover-lift pulse-primary">
+              Next <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUESTION PALETTE -->
+    <aside class="col-lg-4 col-xl-3 animate-fade-in stagger-2">
+      <div class="card border-0 shadow-sm sticky-lg-top hover-lift" style="top: 80px;">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center gap-2 mb-4">
+            <i class="bi bi-grid-3x3-gap-fill text-primary"></i>
+            <h4 class="h6 fw-bold mb-0">Question Navigator</h4>
+          </div>
+          <div id="question-palette" class="d-flex flex-wrap gap-2 justify-content-start"></div>
+          
+          <div class="mt-5 pt-4 border-top text-center">
+            <button id="submit-btn" class="btn btn-danger w-100 py-3 fw-bold shadow-sm hover-lift d-flex align-items-center justify-content-center gap-2">
+              <i class="bi bi-send-check-fill"></i> Submit Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay" class="position-fixed top-0 start-0 w-100 h-100 d-none d-flex align-items-center justify-content-center" style="background:rgba(0,0,0,.4);backdrop-filter:blur(3px);z-index:50">
+  <div class="bg-white p-3 rounded shadow d-flex align-items-center gap-2">
+    <div class="spinner-border text-danger" role="status" style="width:1.5rem;height:1.5rem"></div>
+    <span class="fw-semibold">Submitting...</span>
+  </div>
+</div>
+
+<script src="questions.js"></script>
+<script src="exam.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
