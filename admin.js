@@ -42,7 +42,7 @@ function renderResults() {
       const date = new Date(entry.timestamp).toLocaleString();
       tr.innerHTML = `
         <td class="px-2 py-3 fw-medium">${name}</td>
-        <td class="px-2 py-3">${entry.studentClass}</td>
+        <td class="px-2 py-3">${entry.selectedSubject || "N/A"}</td>
         <td class="px-2 py-3 text-primary fw-bold">${entry.correct}/${entry.total} (${entry.percentage}%)</td>
         <td class="px-2 py-3"><span class="badge ${getGradeColor(entry.grade)}">${entry.grade}</span></td>
         <td class="px-2 py-3 text-muted small">${date}</td>
@@ -173,7 +173,7 @@ function exportExcel(entry) {
   const worksheet = XLSX.utils.json_to_sheet(breakdown);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Result");
-  const fileName = `${entry.firstName}_${entry.lastName}_${entry.studentClass}_Result.xlsx`;
+  const fileName = `${entry.firstName}_${entry.lastName}_${entry.selectedSubject || "Result"}_Result.xlsx`;
   XLSX.writeFile(workbook, fileName);
 }
 function exportPdf(entry) {
@@ -183,7 +183,7 @@ function exportPdf(entry) {
   div.innerHTML = `
     <h2 class="text-2xl font-bold mb-4">Exam Result</h2>
     <div class="mb-2">Name: ${entry.firstName} ${entry.lastName}</div>
-    <div class="mb-2">Class: ${entry.studentClass}</div>
+    <div class="mb-2">Subject: ${entry.selectedSubject || "N/A"}</div>
     <div class="mb-2">Score: ${entry.correct}/${entry.total} (${entry.percentage}%)</div>
     <div class="mb-4">Grade: ${entry.grade}</div>
     <div class="grid gap-2">
@@ -227,7 +227,7 @@ function printEntry(entry) {
         <div class="card">
           <h2>Exam Result</h2>
           <div class="item">Name: ${entry.firstName} ${entry.lastName}</div>
-          <div class="item">Class: ${entry.studentClass}</div>
+          <div class="item">Subject: ${entry.selectedSubject || "N/A"}</div>
           <div class="item">Score: ${entry.correct}/${entry.total} (${entry.percentage}%)</div>
           <div class="item">Grade: ${entry.grade}</div>
           ${entry.breakdown.map(b => `
@@ -258,26 +258,26 @@ const resetBtn = document.getElementById("reset-questions-btn");
 if (uploadForm) {
   uploadForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const targetClass = document.getElementById("upload-class").value;
+    const targetSubject = document.getElementById("upload-subject").value;
     const fileInput = document.getElementById("docx-file");
     const file = fileInput.files[0];
 
-    if (!file || !targetClass) return;
+    if (!file || !targetSubject) return;
 
     try {
       const arrayBuffer = await file.arrayBuffer();
       const result = await mammoth.extractRawText({ arrayBuffer });
       const text = result.value;
 
-      const parsedQuestions = parseDocxQuestions(text, targetClass);
+      const parsedQuestions = parseDocxQuestions(text, targetSubject);
       
       if (parsedQuestions.length === 0) {
         alert("No questions found. Please check the document format.");
         return;
       }
 
-      saveQuestionsToStorage(targetClass, parsedQuestions);
-      alert(`Successfully uploaded ${parsedQuestions.length} questions for ${targetClass}!`);
+      saveQuestionsToStorage(targetSubject, parsedQuestions);
+      alert(`Successfully uploaded ${parsedQuestions.length} questions for ${targetSubject}!`);
       fileInput.value = "";
     } catch (error) {
       console.error("Error parsing DOCX:", error);
@@ -286,17 +286,15 @@ if (uploadForm) {
   });
 }
 
-function parseDocxQuestions(text, studentClass) {
+function parseDocxQuestions(text, subject) {
   // Split by "Q:" or "Q1:" or "1." or "Question 1:"
-  // We'll look for patterns like "Q1:", "Q:", "1.", "Question 1:" at the start of a line
   const questionBlocks = text.split(/\n(?=(?:Q\d*[:.]|Question\s*\d*[:.]|\d+[:.]))/i).filter(block => block.trim() !== "");
-  const classPrefix = studentClass.replace(/\s+/g, "").substring(0, 3).toUpperCase();
+  const subjectPrefix = subject.substring(0, 3).toUpperCase();
   
   return questionBlocks.map((block, index) => {
     const lines = block.split("\n").map(l => l.trim()).filter(l => l !== "");
     if (lines.length === 0) return null;
 
-    // First line is the question text, remove the prefix (e.g., "Q1:")
     const questionText = lines[0].replace(/^(?:Q\d*[:.]|Question\s*\d*[:.]|\d+[:.])\s*/i, "").trim();
     
     const options = [];
@@ -304,13 +302,11 @@ function parseDocxQuestions(text, studentClass) {
     let points = 1;
 
     lines.forEach(line => {
-      // Matches: A) Option, A. Option, A: Option
       const optionMatch = line.match(/^([A-D])[).:]\s*(.*)/i);
       if (optionMatch) {
         options.push(optionMatch[2].trim());
       }
       
-      // Matches: Ans: Option, Answer: Option, Correct: Option
       const answerMatch = line.match(/^(?:Ans|Answer|Correct)[:.]\s*(.*)/i);
       if (answerMatch) {
         answer = answerMatch[1].trim();
@@ -322,25 +318,24 @@ function parseDocxQuestions(text, studentClass) {
       }
     });
 
-    // If answer is "A", "B", etc., map it to the option text
     if (answer.length === 1 && /^[A-D]$/i.test(answer)) {
       const idx = answer.toUpperCase().charCodeAt(0) - 65;
       if (options[idx]) answer = options[idx];
     }
 
     return {
-      id: `${classPrefix}-${Date.now()}-${index}`,
+      id: `${subjectPrefix}-${Date.now()}-${index}`,
       text: questionText,
-      options: options.length > 0 ? options : ["Option 1", "Option 2", "Option 3", "Option 4"],
-      answer: answer || (options.length > 0 ? options[0] : "Option 1"),
+      options: options.length > 0 ? options : ["Option A", "Option B", "Option C", "Option D"],
+      answer: answer || (options.length > 0 ? options[0] : "Option A"),
       points: points
     };
   }).filter(q => q !== null);
 }
 
-function saveQuestionsToStorage(studentClass, questions) {
+function saveQuestionsToStorage(subject, questions) {
   const customStore = JSON.parse(localStorage.getItem("customQuestions")) || {};
-  customStore[studentClass] = questions;
+  customStore[subject] = questions;
   localStorage.setItem("customQuestions", JSON.stringify(customStore));
 }
 
@@ -357,17 +352,11 @@ if (downloadBtn) {
   downloadBtn.addEventListener("click", () => {
     const customStore = JSON.parse(localStorage.getItem("customQuestions")) || {};
     
-    // Attempt to merge with existing defaults if they are available in the current window scope
-    // This makes the downloaded file a complete replacement.
-    const finalQuestions = { ...QUESTIONS_BY_CLASS, ...customStore };
-    const finalDurations = typeof EXAM_DURATION_BY_CLASS !== "undefined" ? EXAM_DURATION_BY_CLASS : {};
-    const finalTitles = typeof EXAM_TITLES_BY_CLASS !== "undefined" ? EXAM_TITLES_BY_CLASS : {};
+    // Merge existing defaults with custom uploaded questions
+    const finalQuestions = { ...(typeof questions !== "undefined" ? questions : {}), ...customStore };
 
-    let fileContent = `/* Updated questions.js */\n\n`;
-    fileContent += `const examDuration = 30;\n\n`;
-    fileContent += `const QUESTIONS_BY_CLASS = ${JSON.stringify(finalQuestions, null, 2)};\n\n`;
-    fileContent += `const EXAM_DURATION_BY_CLASS = ${JSON.stringify(finalDurations, null, 2)};\n\n`;
-    fileContent += `const EXAM_TITLES_BY_CLASS = ${JSON.stringify(finalTitles, null, 2)};\n`;
+    let fileContent = `const examDuration = 40; // in minutes\n\n`;
+    fileContent += `const questions = ${JSON.stringify(finalQuestions, null, 2)};\n`;
 
     const blob = new Blob([fileContent], { type: "text/javascript" });
     const url = URL.createObjectURL(blob);
