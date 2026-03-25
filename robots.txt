@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /exam.html
+Disallow: /results.html
+
+Sitemap: /sitemap.xml

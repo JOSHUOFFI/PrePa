@@ -1,0 +1,21 @@
+{
+  "name": "PrePa CBT Portal",
+  "short_name": "PrePa CBT",
+  "description": "Computer based testing platform for timed online exams and student performance reporting.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#A41849",
+  "icons": [
+    {
+      "src": "./PrePa_favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./PrePa_favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
