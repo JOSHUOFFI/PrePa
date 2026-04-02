@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure CBT Exam Session | PrePa CBT Portal</title>
+<meta name="description" content="Active CBT exam session for registered students on PrePa CBT Portal. This private testing page is not intended for search indexing.">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="author" content="PrePa CBT Portal">
+<meta name="theme-color" content="#A41849">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PrePa CBT Portal">
+<meta property="og:title" content="Secure CBT Exam Session | PrePa CBT Portal">
+<meta property="og:description" content="Private timed online exam experience for registered students.">
+<meta property="og:url" content="/exam.html">
+<meta property="og:image" content="./logo%201.png">
+<meta property="og:image:alt" content="PrePa CBT Portal logo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Secure CBT Exam Session | PrePa CBT Portal">
+<meta name="twitter:description" content="Private timed online exam experience for registered students.">
+<meta name="twitter:image" content="./logo%201.png">
+<link rel="canonical" href="/exam.html">
+<link rel="icon" type="image/png" sizes="192x192" href="./PrePa_favicon.png">
+<link rel="apple-touch-icon" href="./PrePa_favicon.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PrePa CBT Exam",
+  "description": "Private secure online examination interface for registered students.",
+  "url": "/exam.html",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Web Browser",
+  "isAccessibleForFree": true
+}
+</script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="./style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HYVF242THW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HYVF242THW');
+</script>
+</head>
+
+<body class="min-vh-100 bg-light text-dark">
+
+<!-- HEADER -->
+<header class="position-sticky top-0 bg-white shadow-sm" style="z-index:1000">
+  <div class="container-fluid px-md-4 py-2 d-flex justify-content-between align-items-center exam-header-compact">
+    <div class="logo-section d-flex align-items-center gap-2 gap-md-3">
+      <img src="./logo 1.png" alt="Logo" class="rounded shadow-sm" style="width:40px;height:40px">
+      <div>
+        <h1 id="exam-title" class="h6 fw-bold mb-0 text-primary-emphasis">CBT Portal</h1>
+        <h2 id="subject-name" class="h6 fw-bold mb-0 text-danger animate-fade-in small">Subject: Loading...</h2>
+      </div>
+    </div>
+
+    <div id="student-info" class="small fw-bold d-none d-lg-block text-muted"></div>
+
+    <div id="timer" class="px-3 px-md-4 py-1 py-md-2 rounded-pill bg-primary text-white fw-bold shadow-sm d-flex align-items-center gap-2 animate-fade-in stagger-1">
+      <i class="bi bi-clock-fill"></i> <span id="timer-display">00:00</span>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="container py-3 py-md-4">
+  <div class="row g-3 g-md-4">
+    <!-- QUESTION CARD -->
+    <section class="col-lg-8 col-xl-9 animate-slide-in">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body p-3 p-md-4">
+          <div class="d-flex justify-content-between align-items-center mb-3 mb-md-4">
+            <span id="question-number" class="badge bg-primary-subtle text-primary fw-bold px-3 py-2 animate-fade-in"></span>
+            <div class="text-muted small animate-fade-in d-none d-sm-block"><i class="bi bi-info-circle"></i> Choose the correct option</div>
+          </div>
+
+          <h3 id="question-text" class="h5 fw-bold text-dark mb-4 lh-base animate-fade-in stagger-1" style="min-height: 60px;"></h3>
+
+          <div id="options-container" class="d-grid gap-2 gap-md-3 mb-4 mb-md-5 animate-fade-in stagger-2"></div>
+
+          <!-- Navigation -->
+          <div class="d-flex justify-content-between align-items-center pt-4 border-top animate-fade-in stagger-3">
+            <button id="prev-btn" class="btn btn-outline-secondary px-3 px-md-4 d-flex align-items-center gap-2 hover-lift">
+              <i class="bi bi-arrow-left"></i> <span class="d-none d-sm-inline">Previous</span>
+            </button>
+
+            <button id="next-btn" class="btn btn-primary px-4 px-md-5 d-flex align-items-center gap-2 hover-lift pulse-primary">
+              <span id="next-text">Next</span> <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUESTION PALETTE (Desktop Sidebar) -->
+    <aside class="col-lg-4 col-xl-3 desktop-palette animate-fade-in stagger-2">
+      <div class="card border-0 shadow-sm sticky-lg-top" style="top: 80px;">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center gap-2 mb-4">
+            <i class="bi bi-grid-3x3-gap-fill text-primary"></i>
+            <h4 class="h6 fw-bold mb-0">Question Navigator</h4>
+          </div>
+          <div id="question-palette" class="d-flex flex-wrap gap-2 justify-content-start"></div>
+          
+          <div class="mt-5 pt-4 border-top text-center">
+            <button id="submit-btn" class="btn btn-danger w-100 py-3 fw-bold shadow-sm hover-lift d-flex align-items-center justify-content-center gap-2">
+              <i class="bi bi-send-check-fill"></i> Submit Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- MOBILE FLOATING BUTTON -->
+<button class="floating-palette-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPalette" aria-controls="offcanvasPalette">
+  <i class="bi bi-grid-3x3-gap-fill fs-4"></i>
+</button>
+
+<!-- MOBILE OFFCANVAS PALETTE -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasPalette" aria-labelledby="offcanvasPaletteLabel">
+  <div class="offcanvas-header border-bottom bg-light">
+    <h5 class="offcanvas-title fw-bold" id="offcanvasPaletteLabel">Question Navigator</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="mobile-question-palette" class="d-flex flex-wrap gap-2 justify-content-center mb-5"></div>
+    
+    <div class="mt-auto pt-4 border-top">
+      <button id="submit-btn-mobile" class="btn btn-danger w-100 py-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+        <i class="bi bi-send-check-fill"></i> Submit Exam
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay" class="position-fixed top-0 start-0 w-100 h-100 d-none d-flex align-items-center justify-content-center" style="background:rgba(0,0,0,.4);backdrop-filter:blur(3px);z-index:50">
+  <div class="bg-white p-3 rounded shadow d-flex align-items-center gap-2">
+    <div class="spinner-border text-danger" role="status" style="width:1.5rem;height:1.5rem"></div>
+    <span class="fw-semibold">Submitting...</span>
+  </div>
+</div>
+
+<script src="questions.js"></script>
+<script src="exam.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
+
