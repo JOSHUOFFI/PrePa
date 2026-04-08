@@ -4,6 +4,29 @@
 ========================= */
 
 // ==========================
+// Authentication Check
+// ==========================
+function checkUserAuth() {
+  try {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    if (!userData || !userData.email) {
+      alert("You must be logged in to take an exam.");
+      window.location.href = "login.html";
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Auth check error:', error);
+    window.location.href = "login.html";
+    return false;
+  }
+}
+
+if (!checkUserAuth()) {
+  throw new Error('User not authenticated');
+}
+
+// ==========================
 // Anti-cheat protections (basic only)
 // ==========================
 document.addEventListener("contextmenu", e => e.preventDefault());
